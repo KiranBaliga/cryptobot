@@ -1,6 +1,6 @@
 # Crypto Bot - Telegram Bot for Cryptocurrency Prices
 
-Crypto Bot is a simple yet powerful Telegram bot that allows users to get real-time cryptocurrency prices with the ease of clicking a button. Whether you're a trader or a crypto enthusiast, this bot provides you with up-to-date information about any cryptocurrency you're interested in.
+Crypto Bot is a simple yet powerful Telegram bot that allows users to get real-time cryptocurrency prices with the ease of clicking a button. Whether you are a trader or a crypto enthusiast, this bot provides you with up-to-date information about any cryptocurrency you're interested in.
 
 ## Features
 
