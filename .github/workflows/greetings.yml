@@ -17,12 +17,16 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.issues.createComment({
-              issue_number: context.payload.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+            const issue_number = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            
+            await github.issues.createComment({
+              issue_number: issue_number,
+              owner: owner,
+              repo: repo,
               body: `👋 Thank you for raising an issue! We appreciate your effort in helping us improve. Our team will review it shortly. Stay tuned!`
-            })
+            });
 
       - name: Send PR Greeting
         if: github.event_name == 'pull_request'
@@ -30,9 +34,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.issues.createComment({
-              issue_number: context.payload.pull_request.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+            const pull_number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            
+            await github.issues.createComment({
+              issue_number: pull_number,
+              owner: owner,
+              repo: repo,
               body: `🎉 Thank you for your contribution! Your pull request has been submitted successfully. A maintainer will review it as soon as possible. We appreciate your support in making this project better!`
-            })
+            });
+
