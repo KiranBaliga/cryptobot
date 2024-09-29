@@ -13,15 +13,15 @@ jobs:
       - name: Send Greeting
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}  # Ensure the GitHub token is passed
           script: |
             const username = context.payload.sender.login;
             const message = `👋 Hi @${username}, thanks for your contribution! We're excited to have your PR/issue and will look into it soon.`;
 
             const issueOrPRNumber = context.payload.issue ? context.payload.issue.number : context.payload.pull_request.number;
-            await github.issues.createComment({
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issueOrPRNumber,
               body: message
             });
-
