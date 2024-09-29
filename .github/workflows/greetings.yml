@@ -1,47 +1,27 @@
-name: Greetings Workflow
+name: Greeting Bot
 
-on:
-  pull_request:
-    types: [opened]
+on:  
   issues:
+    types: [opened]
+  pull_request:
     types: [opened]
 
 jobs:
-  greeting:
+  greet:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Send Issue Greeting
-        if: github.event_name == 'issues'
+      - name: Send Greeting
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const issue_number = context.issue.number;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            
-            await github.issues.createComment({
-              issue_number: issue_number,
-              owner: owner,
-              repo: repo,
-              body: `👋 Thank you for raising an issue! We appreciate your effort in helping us improve. Our team will review it shortly. Stay tuned!`
-            });
+            const username = context.payload.sender.login;
+            const message = `👋 Hi @${username}, thanks for your contribution! We're excited to have your PR/issue and will look into it soon.`;
 
-      - name: Send PR Greeting
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const pull_number = context.payload.pull_request.number;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            
+            const issueOrPRNumber = context.payload.issue ? context.payload.issue.number : context.payload.pull_request.number;
             await github.issues.createComment({
-              issue_number: pull_number,
-              owner: owner,
-              repo: repo,
-              body: `🎉 Thank you for your contribution! Your pull request has been submitted successfully. A maintainer will review it as soon as possible. We appreciate your support in making this project better!`
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueOrPRNumber,
+              body: message
             });
 
